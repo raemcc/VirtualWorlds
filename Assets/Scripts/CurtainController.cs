@@ -4,31 +4,31 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class CurtainController : MonoBehaviour
 {
     [Header("Slide Settings")]
-    [Tooltip("How far along local X the curtain slides when fully open. " +
+    [Tooltip("How far along local Z the curtain slides when fully open. " +
              "Left curtain: negative value. Right curtain: positive value.")]
-    public float openLocalX = -0.8f;
-    [Tooltip("Tick ON for the left curtain (slides negative X). Leave OFF for the right curtain.")]
+    public float openLocalZ = -0.8f;
+    [Tooltip("Tick ON for the curtain that slides in the negative Z direction. Leave OFF for the other.")]
     public bool slidesNegative = false;
 
     [Header("Lighting")]
-    public Light directionalLight;
-    public float closedLightIntensity = 0.1f;
-    public float openLightIntensity = 1.0f;
+    public Light windowLight;
+    public float closedLightIntensity = 0f;
+    public float openLightIntensity = 100f;
 
     [Header("Bunching")]
     [Tooltip("How squished the curtain (and child rings) look when fully open. 0.4-0.6 works well.")]
-    public float openScaleX = 0.45f;
+    public float openScaleZ = 0.45f;
 
     // --- private state ---
     private UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable grab;
     private bool isGrabbed;
     private Transform controller;
 
-    private float closedLocalX;       // captured on Start
-    private float closedScaleX;       // captured on Start
-    private float grabStartCtrlX;     // controller X when grab began
-    private float grabStartCurtainX;  // curtain X when grab began
-    private float targetX;            // where we lerp to after release
+    private float closedLocalZ;       // captured on Start
+    private float closedScaleZ;       // captured on Start
+    private float grabStartCtrlZ;     // controller Z when grab began
+    private float grabStartCurtainZ;  // curtain Z when grab began
+    private float targetZ;            // where we lerp to after release
 
     void Start()
     {
@@ -42,17 +42,17 @@ public class CurtainController : MonoBehaviour
         grab.selectExited.AddListener(OnRelease);
 
         // Record resting state
-        closedLocalX  = transform.localPosition.x;
-        closedScaleX  = transform.localScale.x;
-        targetX       = closedLocalX;
+        closedLocalZ = transform.localPosition.z;
+        closedScaleZ = transform.localScale.z;
+        targetZ      = closedLocalZ;
     }
 
     void OnGrab(SelectEnterEventArgs args)
     {
         isGrabbed           = true;
         controller          = args.interactorObject.transform;
-        grabStartCtrlX      = controller.position.x;
-        grabStartCurtainX   = transform.localPosition.x;
+        grabStartCtrlZ      = controller.position.z;
+        grabStartCurtainZ   = transform.localPosition.z;
     }
 
     void OnRelease(SelectExitEventArgs args)
@@ -61,57 +61,57 @@ public class CurtainController : MonoBehaviour
         controller = null;
 
         // Snap to fully open or fully closed based on which side of the midpoint we're on
-        float mid        = (closedLocalX + openLocalX) / 2f;
-        float current    = transform.localPosition.x;
+        float mid        = (closedLocalZ + openLocalZ) / 2f;
+        float current    = transform.localPosition.z;
         bool  shouldOpen = slidesNegative ? current < mid : current > mid;
 
-        targetX = shouldOpen ? openLocalX : closedLocalX;
+        targetZ = shouldOpen ? openLocalZ : closedLocalZ;
     }
 
     void Update()
     {
         // --- Move curtain ---
-        float currentX = transform.localPosition.x;
+        float currentZ = transform.localPosition.z;
 
         if (isGrabbed && controller != null)
         {
-            // Follow the controller's X delta, clamped to valid range
-            float delta   = controller.position.x - grabStartCtrlX;
-            float desired = grabStartCurtainX + delta;
+            // Follow the controller's Z delta, clamped to valid range
+            float delta   = controller.position.z - grabStartCtrlZ;
+            float desired = grabStartCurtainZ + delta;
 
             desired = slidesNegative
-                ? Mathf.Clamp(desired, openLocalX,   closedLocalX)
-                : Mathf.Clamp(desired, closedLocalX, openLocalX);
+                ? Mathf.Clamp(desired, openLocalZ,   closedLocalZ)
+                : Mathf.Clamp(desired, closedLocalZ, openLocalZ);
 
-            transform.localPosition = new Vector3(desired,
+            transform.localPosition = new Vector3(transform.localPosition.x,
                                                   transform.localPosition.y,
-                                                  transform.localPosition.z);
+                                                  desired);
         }
         else
         {
             // Lerp to snap target when released
-            float snappedX = Mathf.Lerp(currentX, targetX, Time.deltaTime * 4f);
-            transform.localPosition = new Vector3(snappedX,
+            float snappedZ = Mathf.Lerp(currentZ, targetZ, Time.deltaTime * 4f);
+            transform.localPosition = new Vector3(transform.localPosition.x,
                                                   transform.localPosition.y,
-                                                  transform.localPosition.z);
+                                                  snappedZ);
         }
 
         // --- Bunching scale (also squishes child rings together) ---
-        float travel    = Mathf.Abs(openLocalX - closedLocalX);
-        float t         = travel > 0f
-                          ? Mathf.Clamp01(Mathf.Abs(transform.localPosition.x - closedLocalX) / travel)
-                          : 0f;
-        float newScaleX = Mathf.Lerp(closedScaleX, openScaleX, t);
-        transform.localScale = new Vector3(newScaleX,
+        float travel  = Mathf.Abs(openLocalZ - closedLocalZ);
+        float t       = travel > 0f
+                        ? Mathf.Clamp01(Mathf.Abs(transform.localPosition.z - closedLocalZ) / travel)
+                        : 0f;
+        float newScaleZ = Mathf.Lerp(closedScaleZ, openScaleZ, t);
+        transform.localScale = new Vector3(transform.localScale.x,
                                            transform.localScale.y,
-                                           transform.localScale.z);
+                                           newScaleZ);
 
-        // --- Directional light ---
-        if (directionalLight != null)
+        // --- Window light ---
+        if (windowLight != null)
         {
-            directionalLight.intensity = Mathf.Lerp(closedLightIntensity,
-                                                    openLightIntensity,
-                                                    t);
+            windowLight.intensity = Mathf.Lerp(closedLightIntensity,
+                                               openLightIntensity,
+                                               t);
         }
     }
 }
