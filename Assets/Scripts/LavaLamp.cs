@@ -7,7 +7,7 @@ public class LavaLamp : MonoBehaviour
     public float targetIntensity = 2f;
     public LavaBlobMover[] blobs;
 
-    private bool isOn = false;
+    private bool isOn = true;
     private UnityEngine.XR.Interaction.Toolkit.Interactables.XRSimpleInteractable interactable;
 
     void Start()
