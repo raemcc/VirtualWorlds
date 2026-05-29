@@ -1,0 +1,70 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# File Created: 13.10.2017 03:01:38
+
+newmtl Cesto_Poly_01
+	Ns 100.000000
+	Ni 1.500000
+	d 1.000000
+	Tr 0.000000
+	Tf 1.000000 1.000000 1.000000 
+	illum 2
+	Ka 0.000000 0.000000 0.000000
+	Kd 1.000000 1.000000 1.000000
+	Ks 0.230000 0.230000 0.230000
+	Ke 0.000000 0.000000 0.000000
+	map_Ka E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_albedo.jpg
+	map_Kd E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_albedo.jpg
+	map_Ks E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_specular.jpg
+	map_bump E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_normal.jpg
+	bump E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_normal.jpg
+
+newmtl Cesto_Poly_02
+	Ns 100.000000
+	Ni 1.500000
+	d 1.000000
+	Tr 0.000000
+	Tf 1.000000 1.000000 1.000000 
+	illum 2
+	Ka 0.000000 0.000000 0.000000
+	Kd 1.000000 1.000000 1.000000
+	Ks 0.230000 0.230000 0.230000
+	Ke 0.000000 0.000000 0.000000
+	map_Ka E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_Yellow-albedo.jpg
+	map_Kd E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_Yellow-albedo.jpg
+	map_Ks E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_specular.jpg
+	map_bump E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_normal.jpg
+	bump E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_normal.jpg
+
+newmtl Cesto_Poly_03
+	Ns 100.000000
+	Ni 1.500000
+	d 1.000000
+	Tr 0.000000
+	Tf 1.000000 1.000000 1.000000 
+	illum 2
+	Ka 0.000000 0.000000 0.000000
+	Kd 1.000000 1.000000 1.000000
+	Ks 0.230000 0.230000 0.230000
+	Ke 0.000000 0.000000 0.000000
+	map_Ka E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_Violet-albedo.jpg
+	map_Kd E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_Violet-albedo.jpg
+	map_Ks E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_specular.jpg
+	map_bump E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_normal.jpg
+	bump E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_normal.jpg
+
+newmtl Cesto_Poly_04
+	Ns 100.000000
+	Ni 1.500000
+	d 1.000000
+	Tr 0.000000
+	Tf 1.000000 1.000000 1.000000 
+	illum 2
+	Ka 0.000000 0.000000 0.000000
+	Kd 1.000000 1.000000 1.000000
+	Ks 0.230000 0.230000 0.230000
+	Ke 0.000000 0.000000 0.000000
+	map_Ka E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_Blue-albedo.jpg
+	map_Kd E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_Blue-albedo.jpg
+	map_Ks E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_specular.jpg
+	map_bump E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_normal.jpg
+	bump E:\Cad\clothes-basket-1.snapshot.7\end1\Cesto_Poly_01_normal.jpg
