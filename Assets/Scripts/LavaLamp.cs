@@ -1,46 +1,59 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class LavaLamp : MonoBehaviour
 {
+    [Header("Light")]
     public Light lampLight;
-    public float targetIntensity = 2f;
-    public LavaBlobMover[] blobs;
+    public float targetIntensity = 0.03f;
+    public float fadeDuration = 2f;
 
-    private bool isOn = true;
-    private UnityEngine.XR.Interaction.Toolkit.Interactables.XRSimpleInteractable interactable;
+    [Header("Blob Animation")]
+    public Animator blobAnimator; // drag the LavaLamp Animator here
+
+    private bool isOn = false;
+    private XRSimpleInteractable interactable;
 
     void Start()
     {
         lampLight.intensity = 0f;
         lampLight.enabled = false;
-        interactable = GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRSimpleInteractable>();
+
+        if (blobAnimator != null)
+            blobAnimator.enabled = false;
+
+        interactable = GetComponent<XRSimpleInteractable>();
         interactable.selectEntered.AddListener(OnPressed);
     }
 
     void OnPressed(SelectEnterEventArgs args)
     {
-        if (!isOn)
-        {
-            isOn = true;
-            foreach (LavaBlobMover blob in blobs)
-            {
-                blob.StartMoving();
-            }
-            StartCoroutine(FadeLight());
-        }
+        isOn = !isOn;
+        StopAllCoroutines();
+
+        if (blobAnimator != null)
+            blobAnimator.enabled = isOn;
+
+        GetComponent<WorldSpacePopup>()?.Toggle();
+
+        if (isOn)
+            StartCoroutine(FadeLight(0f, targetIntensity, true));
+        else
+            StartCoroutine(FadeLight(lampLight.intensity, 0f, false));
     }
 
-    System.Collections.IEnumerator FadeLight()
+    System.Collections.IEnumerator FadeLight(float from, float to, bool enableAtStart)
     {
-        lampLight.enabled = true;
+        if (enableAtStart) lampLight.enabled = true;
         float t = 0f;
         while (t < 1f)
         {
-            t += Time.deltaTime * 0.5f;
-            lampLight.intensity = Mathf.Lerp(0f, targetIntensity, t);
+            t += Time.deltaTime / fadeDuration;
+            lampLight.intensity = Mathf.Lerp(from, to, t);
             yield return null;
         }
+        lampLight.intensity = to;
+        if (!enableAtStart) lampLight.enabled = false;
     }
-    
 }
