@@ -66,5 +66,5 @@
     "explorer.fileNesting.patterns": {
         "*.sln": "*.csproj"
     },
-    "dotnet.defaultSolution": "VirtualWorldsUnity.sln"
+    "dotnet.defaultSolution": "VirtualWorlds.sln"
 }
